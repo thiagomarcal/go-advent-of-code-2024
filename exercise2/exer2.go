@@ -21,27 +21,32 @@ func part1() {
 
 	totalLines := len(strings.Split(result, "\n"))
 
+	fmt.Printf("Total lines: %d\n", totalLines)
+
 	arrResult := make([]string, totalLines)
 
-	for _, line := range strings.Split(result, "\r\n") {
-		var arr []int
+	for _, line := range strings.Split(result, "\n") {
+		if len(line) > 0 {
 
-		for _, res := range strings.Split(line, " ") {
-			resToInt, _ := strconv.Atoi(strings.Trim(res, " "))
-			arr = append(arr, resToInt)
-		}
+			var arr []int
 
-		counter := 0
-		orientation := 0
-		currentOrientation := 0
+			for _, res := range strings.Split(line, " ") {
+				resToInt, _ := strconv.Atoi(strings.Trim(res, " "))
+				arr = append(arr, resToInt)
+			}
 
-		c := checkErrors(arr, counter, orientation, currentOrientation)
-		counter = c
+			counter := 0
+			orientation := 0
+			currentOrientation := 0
 
-		if counter > 0 {
-			arrResult = append(arrResult, "Unsafe")
-		} else {
-			arrResult = append(arrResult, "Safe")
+			c := checkErrors(arr, counter, orientation, currentOrientation)
+			counter = c
+
+			if counter > 0 {
+				arrResult = append(arrResult, "Unsafe")
+			} else {
+				arrResult = append(arrResult, "Safe")
+			}
 		}
 
 	}
@@ -53,8 +58,8 @@ func part1() {
 		}
 	}
 
-	fmt.Printf("Final Awnser: %v\n", solution)
-	fmt.Printf("Finished in: %v\n", time.Since(timeInit))
+	fmt.Printf("Exercise2 - Result: %v\n", solution)
+	fmt.Printf("Took: %v\n", time.Since(timeInit))
 }
 
 func part2() {
@@ -72,53 +77,57 @@ func part2() {
 
 	arrResult := make([]string, totalLines)
 
-	for _, line := range strings.Split(result, "\r\n") {
-		var arr []int
+	for _, line := range strings.Split(result, "\n") {
+		if len(line) > 0 {
 
-		for _, res := range strings.Split(line, " ") {
-			resToInt, _ := strconv.Atoi(strings.Trim(res, " "))
-			arr = append(arr, resToInt)
-		}
+			var arr []int
 
-		counter := 0
-		orientation := 0
-		currentOrientation := 0
+			for _, res := range strings.Split(line, " ") {
+				resToInt, _ := strconv.Atoi(strings.Trim(res, " "))
+				arr = append(arr, resToInt)
+			}
 
-		c := checkErrors(arr, counter, orientation, currentOrientation)
-		counter = c
-		successCounter := 0
+			counter := 0
+			orientation := 0
+			currentOrientation := 0
 
-		// if there is an error, check if removing one element from the array solves the problem
-		// otherwise, the array is safe
-		if c > 0 {
-			for i := range arr {
+			c := checkErrors(arr, counter, orientation, currentOrientation)
+			counter = c
+			successCounter := 0
 
-				// check every combination of the array without one element
-				var newArr []int
-				newCounter := 0
-				newOrientation := 0
-				newCurrentOrientation := 0
+			// if there is an error, check if removing one element from the array solves the problem
+			// otherwise, the array is safe
+			if c > 0 {
+				for i := range arr {
 
-				for j, elem2 := range arr {
-					if j != i {
-						newArr = append(newArr, elem2)
+					// check every combination of the array without one element
+					var newArr []int
+					newCounter := 0
+					newOrientation := 0
+					newCurrentOrientation := 0
+
+					for j, elem2 := range arr {
+						if j != i {
+							newArr = append(newArr, elem2)
+						}
+					}
+
+					c2 := checkErrors(newArr, newCounter, newOrientation, newCurrentOrientation)
+					if c2 == 0 {
+						successCounter++
 					}
 				}
 
-				c2 := checkErrors(newArr, newCounter, newOrientation, newCurrentOrientation)
-				if c2 == 0 {
-					successCounter++
+				// if at least one combination is safe, the array is safe
+				if successCounter > 0 {
+					arrResult = append(arrResult, "Safe")
+				} else {
+					arrResult = append(arrResult, "UnSafe")
 				}
+			} else {
+				arrResult = append(arrResult, "Safe")
 			}
 
-			// if at least one combination is safe, the array is safe
-			if successCounter > 0 {
-				arrResult = append(arrResult, "Safe")
-			} else {
-				arrResult = append(arrResult, "UnSafe")
-			}
-		} else {
-			arrResult = append(arrResult, "Safe")
 		}
 	}
 
@@ -129,8 +138,8 @@ func part2() {
 		}
 	}
 
-	fmt.Printf("Final Awnser part2: %v\n", solution)
-	fmt.Printf("Finished in: %v\n", time.Since(timeInit))
+	fmt.Printf("Exercise2 - Result part2: %v\n", solution)
+	fmt.Printf("Took: %v\n", time.Since(timeInit))
 }
 
 func checkErrors(arr []int, counter int, orientation int, currentOrientation int) int {

@@ -35,22 +35,28 @@ func part1() {
 
 	totalDistance := 0
 
-	for i, line := range strings.Split(result, "\r\n") {
-		input1 := strings.Split(line, "  ")[0]
+	for i, line := range strings.Split(result, "\n") {
+		splitted := strings.Split(line, "   ")
 
-		res1, err := strconv.Atoi(strings.Trim(input1, " "))
-		if err != nil {
-			fmt.Printf("Error converting input1 to Integer: %v\n", err)
+		if len(splitted) > 1 {
+
+			input1 := splitted[0]
+
+			res1, err := strconv.Atoi(strings.Trim(input1, " "))
+			if err != nil {
+				fmt.Printf("Error converting input1 to Integer: %v\n", err)
+			}
+
+			input2 := splitted[1]
+			res2, err := strconv.Atoi(strings.Trim(input2, " "))
+			if err != nil {
+				fmt.Printf("Error converting input2 to Integer: %v\n", err)
+			}
+
+			arr1[i] = res1
+			arr2[i] = res2
+
 		}
-
-		input2 := strings.Split(line, "  ")[1]
-		res2, err := strconv.Atoi(strings.Trim(input2, " "))
-		if err != nil {
-			fmt.Printf("Error converting input2 to Integer: %v\n", err)
-		}
-
-		arr1[i] = res1
-		arr2[i] = res2
 	}
 
 	sort.Ints(arr1)
@@ -70,7 +76,7 @@ func part1() {
 
 	took := time.Since(timeInit)
 
-	fmt.Printf("Final Awnser: %v\n", totalDistance)
+	fmt.Printf("Exercise1 - Result: %v\n", totalDistance)
 
 	fmt.Printf("Took: %v\n", took)
 
@@ -93,21 +99,24 @@ func part2() {
 	arrLeft := make([]int, totalLines)
 	hashmapRight := make(map[int]int)
 
-	for i, line := range strings.Split(result, "\r\n") {
-		var arr []int
+	for i, line := range strings.Split(result, "\n") {
+		if len(line) > 0 {
 
-		for _, res := range strings.Split(line, "  ") {
-			resToInt, _ := strconv.Atoi(strings.Trim(res, " "))
-			arr = append(arr, resToInt)
-		}
+			var arr []int
 
-		arrLeft[i] = arr[0]
-		numFreq := arr[1]
+			for _, res := range strings.Split(line, "   ") {
+				resToInt, _ := strconv.Atoi(strings.Trim(res, " "))
+				arr = append(arr, resToInt)
+			}
 
-		if _, ok := hashmapRight[numFreq]; ok {
-			hashmapRight[numFreq]++
-		} else {
-			hashmapRight[numFreq] = 1
+			arrLeft[i] = arr[0]
+			numFreq := arr[1]
+
+			if _, ok := hashmapRight[numFreq]; ok {
+				hashmapRight[numFreq]++
+			} else {
+				hashmapRight[numFreq] = 1
+			}
 		}
 	}
 
@@ -119,12 +128,12 @@ func part2() {
 		}
 	}
 
-	fmt.Printf("Final Anwser Part2: %v\n", solution)
+	fmt.Printf("Exercise1 - Result Part2: %v\n", solution)
 
-	fmt.Printf("Time: %v\n", time.Since(timeInit))
+	fmt.Printf("Took: %v\n", time.Since(timeInit))
 }
 
 func Solution() {
-	part1()
+	// part1()
 	part2()
 }
