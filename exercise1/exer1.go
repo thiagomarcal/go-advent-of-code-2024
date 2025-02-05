@@ -134,6 +134,6 @@ func part2() {
 }
 
 func Solution() {
-	// part1()
+	part1()
 	part2()
 }
