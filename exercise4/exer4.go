@@ -81,9 +81,6 @@ func countDiagonal(grid *[][]string, searchTerm string) int {
 		inversePattern += string(searchTerm[i])
 	}
 
-	println("searchTerm: ", searchTerm)
-	println("inversePattern: ", inversePattern)
-
 	count := 0
 
 	rowLength := len((*grid)[0])
@@ -195,7 +192,7 @@ func part1() {
 
 	totalCount := hCount + vCount + dCount
 
-	fmt.Printf("Exercise3 - Result: %v\n", totalCount)
+	fmt.Printf("Exercise4 - Result: %v\n", totalCount)
 	fmt.Printf("Took: %v\n", time.Since(timeInit))
 }
 
