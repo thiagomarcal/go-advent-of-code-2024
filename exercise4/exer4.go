@@ -196,6 +196,63 @@ func part1() {
 	fmt.Printf("Took: %v\n", time.Since(timeInit))
 }
 
+func part2() {
+	timeInit := time.Now()
+
+	input, err := os.ReadFile("inputs/exer4-part2.txt")
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	}
+
+	result := string(input)
+
+	totalLines := len(strings.Split(result, "\r\n"))
+	lineSize := 0
+
+	for _, line := range strings.Split(result, "\r\n") {
+		lineSize = len(line)
+		break
+	}
+
+	grid := make([][]string, totalLines)
+
+	for i, line := range strings.Split(result, "\r\n") {
+		grid[i] = make([]string, lineSize)
+		for j, char := range line {
+			grid[i][j] = string(char)
+		}
+	}
+
+	totalCount := 0
+
+	gridLength := len(grid[0])
+
+	for i := 0; i <= gridLength-3; i++ {
+		for j := 0; j <= gridLength-3; j++ {
+
+			subGrid := make([][]string, 3)
+
+			for a := 0; a < 3; a++ {
+				subGrid[a] = make([]string, 3)
+
+				for b := 0; b < 3; b++ {
+					subGrid[a][b] = grid[i+a][j+b]
+				}
+			}
+
+			dCount := countDiagonal(&subGrid, "MAS")
+
+			if dCount >= 2 {
+				totalCount++
+			}
+		}
+	}
+
+	fmt.Printf("Exercise4 part2 - Result: %v\n", totalCount)
+	fmt.Printf("Took: %v\n", time.Since(timeInit))
+}
+
 func Solution() {
 	part1()
+	part2()
 }
